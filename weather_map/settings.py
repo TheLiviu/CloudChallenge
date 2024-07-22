@@ -11,20 +11,19 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+dotenv_path = os.path.join(BASE_DIR, 'utility', '.env')
+load_dotenv(dotenv_path)
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-j0!u6jy1$rc5^z@soi_y&))@2o^x*=o3-=!i0-yi7zg2acmh1j'
+SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = []
 
@@ -118,17 +117,45 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL ="static/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# STATIC_URL ="static/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
  ]
 
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AZURE_SA_NAME = os.environ['AZURE_SA_NAME']
+AZURE_SA_KEY = os.environ['AZURE_SA_KEY']
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "account_name": AZURE_SA_NAME,
+            "account_key": AZURE_SA_KEY,
+            "azure_container": "appmedia",
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "account_name": AZURE_SA_NAME,
+            "account_key": AZURE_SA_KEY,
+            "azure_container": "appstatic",
+        },
+    },
+}
+
+STATIC_URL = f'https://{AZURE_SA_NAME}.blob.core.windows.net/appstatic/'
+
+MEDIA_URL = f'https://{AZURE_SA_NAME}.blob.core.windows.net/appmedia/'
+
+
+
 
 # print(STATIC_URL)
 # print(STATIC_ROOT)
