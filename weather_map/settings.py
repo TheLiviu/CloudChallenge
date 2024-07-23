@@ -25,7 +25,23 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = []
+WEBSITE_HOSTNAME = os.getenv('WEBSITE_HOSTNAME', None) 
+
+# DEBUG = None 
+
+# ALLOWED_HOSTS = ["cloudapp2424.azurewebsites.net"]
+
+if DEBUG: 
+
+    ALLOWED_HOSTS = [] 
+
+else: 
+
+    ALLOWED_HOSTS = [WEBSITE_HOSTNAME]
+
+CSRF_TRUSTED_ORIGINS = [f'https://{WEBSITE_HOSTNAME}']
+
+CORS_ALLOWED_ORIGINS = [f'https://{WEBSITE_HOSTNAME}']
 
 
 # Application definition
@@ -38,9 +54,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'weather',
+    "corsheaders",
+
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
