@@ -27,6 +27,10 @@ DEBUG = os.getenv("DEBUG")
 
 WEBSITE_HOSTNAME = os.getenv('WEBSITE_HOSTNAME', None) 
 
+print(WEBSITE_HOSTNAME)
+
+print(DEBUG)
+
 # DEBUG = None 
 
 # ALLOWED_HOSTS = ["cloudapp2424.azurewebsites.net"]
@@ -96,8 +100,12 @@ WSGI_APPLICATION = 'weather_map.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('DATABASE_ENGINE'),
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
     }
 }
 
