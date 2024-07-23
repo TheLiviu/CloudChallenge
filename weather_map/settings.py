@@ -35,17 +35,11 @@ print(DEBUG)
 
 # ALLOWED_HOSTS = ["cloudapp2424.azurewebsites.net"]
 
-if DEBUG: 
+ALLOWED_HOSTS = ["cloudapp2424.azurewebsites.net", "127.0.0.1"]
 
-    ALLOWED_HOSTS = [] 
+CSRF_TRUSTED_ORIGINS = [f'https://cloudapp2424.azurewebsites.net']
 
-else: 
-
-    ALLOWED_HOSTS = [WEBSITE_HOSTNAME]
-
-CSRF_TRUSTED_ORIGINS = [f'https://{WEBSITE_HOSTNAME}']
-
-CORS_ALLOWED_ORIGINS = [f'https://{WEBSITE_HOSTNAME}']
+CORS_ALLOWED_ORIGINS = [f'https://cloudapp2424.azurewebsites.net']
 
 
 # Application definition
